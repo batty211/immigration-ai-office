@@ -1,30 +1,15 @@
-FROM python:3.12-slim AS builder
+FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    VIRTUAL_ENV=/opt/venv \
-    PATH="/opt/venv/bin:$PATH"
+    PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-COPY backend/requirements.txt /app/backend/requirements.txt
-RUN python -m venv "$VIRTUAL_ENV" && \
-    pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r /app/backend/requirements.txt
+COPY requirements.txt .
 
-COPY backend /app/backend
+RUN pip install --no-cache-dir -r requirements.txt
 
-FROM python:3.12-slim AS runtime
-
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    VIRTUAL_ENV=/opt/venv \
-    PATH="/opt/venv/bin:$PATH"
-
-WORKDIR /app/backend
-
-COPY --from=builder /opt/venv /opt/venv
-COPY --from=builder /app/backend /app/backend
+COPY . .
 
 RUN python -c "import fastapi" && \
     python -c "import uvicorn"
