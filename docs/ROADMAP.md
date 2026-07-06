@@ -4,7 +4,7 @@
 
 Goal: establish a working development environment that can be started with one command.
 
-Status: In progress
+Status: Mostly completed
 
 Deliverables:
 
@@ -13,6 +13,7 @@ Deliverables:
 - Next.js frontend shell.
 - Caddy reverse proxy.
 - Project documentation foundation.
+- Reverse proxy architecture aligned between development and production.
 
 ## Future Sprints
 
@@ -39,3 +40,4 @@ Deliverables:
 - Encrypted Gmail refresh token storage.
 - Gmail account and watch tables in PostgreSQL.
 - Gmail settings frontend for connect and status visibility.
+- Google Cloud OAuth and Pub/Sub environment setup for local validation.

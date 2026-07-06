@@ -6,8 +6,8 @@ All notable project changes are tracked here.
 
 ### Changed
 
-- Local development no longer depends on Caddy; frontend is exposed on `http://localhost:3001` and backend on `http://localhost:8001`.
-- Frontend now calls the backend directly in development mode, with CORS enabled for the local UI origin.
+- Restored Caddy as the primary entry point for local development so development and production use the same reverse proxy architecture.
+- Frontend now calls backend API routes through Caddy using `/api/*` instead of hardcoded backend host URLs.
 
 ### Added
 
@@ -15,6 +15,11 @@ All notable project changes are tracked here.
 - Gmail OAuth2 integration for personal Gmail accounts.
 - Encrypted refresh token storage in PostgreSQL.
 - Gmail Watch API registration endpoint and Gmail settings frontend.
+
+### In Progress
+
+- Google OAuth local environment setup and test-user configuration.
+- Gmail Pub/Sub topic setup for watch notifications.
 
 ## 2026-07-06
 
