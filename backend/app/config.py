@@ -18,6 +18,10 @@ class Settings:
     app_base_url: str = os.getenv("APP_BASE_URL", "http://localhost")
     frontend_base_url: str = os.getenv("FRONTEND_BASE_URL", "http://localhost")
     database_url: str = _build_database_url()
+    openai_api_key: str = os.getenv("OPENAI_API_KEY", "")
+    openai_model: str = os.getenv("OPENAI_MODEL", "gpt-5.5")
+    openai_base_url: str = os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
+    openai_timeout_seconds: float = float(os.getenv("OPENAI_TIMEOUT_SECONDS", "45"))
     google_client_id: str = os.getenv("GOOGLE_CLIENT_ID", "")
     google_client_secret: str = os.getenv("GOOGLE_CLIENT_SECRET", "")
     gmail_oauth_redirect_path: str = os.getenv("GMAIL_OAUTH_REDIRECT_PATH", "/gmail/callback")
@@ -40,6 +44,10 @@ class Settings:
             and self.google_client_secret
             and self.gmail_token_encryption_key
         )
+
+    @property
+    def openai_configured(self) -> bool:
+        return bool(self.openai_api_key)
 
 
 settings = Settings()

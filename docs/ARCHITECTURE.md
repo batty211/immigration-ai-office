@@ -29,8 +29,8 @@ flowchart LR
 | --- | --- |
 | `caddy` | Reverse proxy and single public entry point for browser traffic. |
 | `frontend` | Next.js user interface. |
-| `backend` | FastAPI application and REST API. |
-| `postgres` | Relational data store. No schema exists yet. |
+| `backend` | FastAPI application, Gmail ingestion workflow, and dashboard REST API. |
+| `postgres` | Relational data store for Gmail accounts, watch state, and stored email records. |
 | `redis` | Cache and future queue/session support. |
 | `qdrant` | Vector database for future AI retrieval workflows. |
 
@@ -72,6 +72,31 @@ Dependencies are installed directly into the runtime image from `backend/require
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
+
+## Mail Officer Layer
+
+Sprint 4 adds a business-intelligence layer inside the backend called Mail Officer.
+
+Mail Officer sits on top of stored `email_messages` records and converts one stored Gmail message into one executive work item stored in `email_analysis`.
+
+```mermaid
+flowchart LR
+    Gmail["Gmail message"] --> Ingest["Gmail ingestion"]
+    Ingest --> EmailTable["email_messages"]
+    EmailTable --> MailOfficer["Mail Officer service"]
+    MailOfficer --> AnalysisTable["email_analysis"]
+    AnalysisTable --> Dashboard["Executive dashboard"]
+```
+
+Mail Officer responsibilities:
+
+- Read one stored email record.
+- Load the executive-officer prompt from `backend/prompts/mail_officer.md`.
+- Call the OpenAI API with a strict JSON schema.
+- Store one structured analysis record per email.
+- Surface summary, urgency, action requirement, reply requirement, deadline, and one recommended next step on the dashboard.
+
+This does not change Gmail OAuth, Gmail Watch, Pub/Sub, or email-ingestion infrastructure. It is a pure business layer added on top of the existing stored-email pipeline.
 
 ## Architecture Change Policy
 

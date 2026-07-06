@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.db import Base, engine
 from app import models  # noqa: F401
+from app.routes.emails import router as emails_router
 from app.routes.gmail import router as gmail_router
 
 
@@ -27,6 +28,7 @@ app.add_middleware(
 )
 
 app.include_router(gmail_router)
+app.include_router(emails_router)
 
 
 @app.get("/health")

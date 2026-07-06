@@ -8,6 +8,7 @@ type GmailStatus = {
   connected: boolean;
   email?: string | null;
   last_sync?: string | null;
+  stored_messages?: number;
 };
 
 export default function GmailSettingsPage() {
@@ -104,6 +105,7 @@ export default function GmailSettingsPage() {
           <div className="metaRow">
             <span className={`pill ${connected ? "ok" : "error"}`}>{connected ? "connected" : "disconnected"}</span>
             <span className="metaText">Last Sync: {lastSync}</span>
+            <span className="metaText">Stored Messages: {status?.stored_messages ?? 0}</span>
           </div>
         </article>
 

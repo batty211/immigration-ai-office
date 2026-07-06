@@ -15,6 +15,10 @@ All notable project changes are tracked here.
 - Gmail OAuth2 integration for personal Gmail accounts.
 - Encrypted refresh token storage in PostgreSQL.
 - Gmail Watch API registration endpoint and Gmail settings frontend.
+- Mail Officer service for structured executive email analysis.
+- `email_analysis` storage linked one-to-one with `email_messages`.
+- Email analysis API endpoints for single-email and batch processing.
+- Executive dashboard fields for summary, priority, recommended action, and deadline.
 
 ### In Progress
 

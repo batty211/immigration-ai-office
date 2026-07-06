@@ -9,6 +9,7 @@
 | BUGFIX-001 | Fix backend runtime dependency visibility | Completed | Replaced dependency install strategy with a standard backend Dockerfile. |
 | FEAT-001 | Gmail OAuth and watch integration foundation | In Progress | Backend routes, frontend settings page, and token storage are implemented; real environment setup is still ongoing. |
 | BUGFIX-003 | Restore Caddy reverse proxy architecture | Completed | Reinstated Caddy as the primary entry point and routed frontend/backend traffic through it. |
+| FEAT-002 | Mail Officer executive analysis workflow | In Progress | Structured AI analysis, `email_analysis` storage, email analysis API, and dashboard integration are implemented; live acceptance still depends on an `OPENAI_API_KEY` being configured in the runtime. |
 
 ## Current Rules
 

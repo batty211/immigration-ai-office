@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import secrets
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
+from fastapi import APIRouter, Body, Depends, HTTPException, Query, Request, status
 from fastapi.responses import RedirectResponse
 from googleapiclient.errors import HttpError
 from sqlalchemy.orm import Session
@@ -81,6 +81,44 @@ def watch_gmail(service: GmailService = Depends(get_gmail_service)) -> dict:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(error)) from error
     except HttpError as error:
         raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail=str(error)) from error
+
+
+@router.post("/sync")
+def sync_gmail(service: GmailService = Depends(get_gmail_service)) -> dict:
+    try:
+        result = service.sync_recent_messages()
+        return {
+            "connected": True,
+            "history_id": result.history_id,
+            "stored": result.stored,
+            "processed": result.processed,
+        }
+    except GmailConfigurationError as error:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(error)) from error
+    except GmailIntegrationError as error:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(error)) from error
+    except HttpError as error:
+        raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail=str(error)) from error
+
+
+@router.post("/notifications")
+def gmail_notifications(
+    payload: dict = Body(...),
+    service: GmailService = Depends(get_gmail_service),
+) -> dict:
+    try:
+        return service.handle_push_notification(payload)
+    except GmailConfigurationError as error:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(error)) from error
+    except GmailIntegrationError as error:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(error)) from error
+    except HttpError as error:
+        raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail=str(error)) from error
+
+
+@router.get("/dashboard")
+def gmail_dashboard(service: GmailService = Depends(get_gmail_service)) -> dict:
+    return service.get_dashboard()
 
 
 @router.get("/status")

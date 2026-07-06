@@ -39,6 +39,13 @@ body {
   margin: 0 auto;
 }
 
+.dashboardShell {
+  align-content: start;
+  max-width: 1120px;
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
 .hero {
   display: grid;
   gap: 10px;
@@ -93,6 +100,16 @@ h1 {
 .settingsGrid {
   display: grid;
   gap: 20px;
+}
+
+.metricGrid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.metricCard h2 {
+  font-size: clamp(2.2rem, 4vw, 3rem);
 }
 
 .settingsGrid {
@@ -185,6 +202,48 @@ h1 {
   align-items: center;
 }
 
+.dashboardHeader {
+  align-items: end;
+}
+
+.listHeader,
+.messageTopRow,
+.messageMeta,
+.messageFooter {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.messageList {
+  display: grid;
+  gap: 16px;
+  width: 100%;
+}
+
+.messageCard {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+  padding: 22px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(24, 23, 20, 0.08);
+}
+
+.messageCard h3 {
+  margin: 0 0 6px;
+  font-size: 1.15rem;
+}
+
+.messageSnippet {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--text);
+}
+
 @media (max-width: 640px) {
   .shell {
     padding: 20px;
@@ -197,5 +256,17 @@ h1 {
 
   .settingsGrid {
     grid-template-columns: 1fr;
+  }
+
+  .metricGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .listHeader,
+  .messageTopRow,
+  .messageMeta,
+  .messageFooter {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

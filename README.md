@@ -1,6 +1,6 @@
 # Immigration AI Office
 
-Development workspace for the Immigration AI Office project, including Gmail OAuth integration for personal Gmail accounts.
+Development workspace for the Immigration AI Office project, including Gmail OAuth integration, Gmail message ingestion, and a live email dashboard backed by PostgreSQL.
 
 ## Installation
 
