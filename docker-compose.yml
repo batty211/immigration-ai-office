@@ -41,6 +41,14 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-immigration_ai_office}
       POSTGRES_USER: ${POSTGRES_USER:-immigration}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-immigration}
+      APP_BASE_URL: ${APP_BASE_URL:-http://localhost}
+      FRONTEND_BASE_URL: ${FRONTEND_BASE_URL:-http://localhost}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      GMAIL_OAUTH_REDIRECT_PATH: ${GMAIL_OAUTH_REDIRECT_PATH:-/gmail/callback}
+      GMAIL_TOKEN_ENCRYPTION_KEY: ${GMAIL_TOKEN_ENCRYPTION_KEY:-}
+      GMAIL_PUBSUB_TOPIC_NAME: ${GMAIL_PUBSUB_TOPIC_NAME:-}
+      GMAIL_WATCH_LABEL_IDS: ${GMAIL_WATCH_LABEL_IDS:-INBOX}
     depends_on:
       postgres:
         condition: service_healthy
@@ -63,6 +71,7 @@ services:
       dockerfile: docker/frontend.Dockerfile
     environment:
       NEXT_PUBLIC_BACKEND_HEALTH_PATH: /health
+      NEXT_PUBLIC_GMAIL_STATUS_PATH: /gmail/status
     depends_on:
       backend:
         condition: service_healthy

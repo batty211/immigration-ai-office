@@ -7,6 +7,9 @@ All notable project changes are tracked here.
 ### Added
 
 - Project documentation source of truth in `docs/`.
+- Gmail OAuth2 integration for personal Gmail accounts.
+- Encrypted refresh token storage in PostgreSQL.
+- Gmail Watch API registration endpoint and Gmail settings frontend.
 
 ## 2026-07-06
 
@@ -21,4 +24,3 @@ All notable project changes are tracked here.
 ### Fixed
 
 - Replaced backend Docker dependency installation strategy so `fastapi` and `uvicorn` are available at runtime.
-

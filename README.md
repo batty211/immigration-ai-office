@@ -1,6 +1,6 @@
 # Immigration AI Office
 
-Production-ready infrastructure scaffold for the Immigration AI Office project.
+Development workspace for the Immigration AI Office project, including Gmail OAuth integration for personal Gmail accounts.
 
 ## Installation
 
@@ -26,4 +26,4 @@ docker compose down
 - FastAPI backend
 - Next.js frontend
 - Caddy reverse proxy
-
+- Gmail OAuth2 and Gmail Watch API integration

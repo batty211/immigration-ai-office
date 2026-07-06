@@ -27,3 +27,15 @@ Planned areas, pending explicit task approval:
 - AI agent workflows.
 - Email integrations.
 
+## Sprint 1: Gmail Connectivity
+
+Goal: connect a real Gmail account with OAuth2 and receive new email notifications through Gmail Watch API.
+
+Status: In progress
+
+Deliverables:
+
+- Gmail OAuth2 connect and callback endpoints.
+- Encrypted Gmail refresh token storage.
+- Gmail account and watch tables in PostgreSQL.
+- Gmail settings frontend for connect and status visibility.

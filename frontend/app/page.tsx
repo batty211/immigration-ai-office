@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 type HealthState = "loading" | "ok" | "error";
@@ -53,7 +54,17 @@ export default function Home() {
         </div>
         <span className={`pill ${status}`}>{status}</span>
       </section>
+
+      <section className="settingsCard" aria-label="Integrations">
+        <div>
+          <p className="cardLabel">Integrations</p>
+          <h2>Gmail Settings</h2>
+          <p className="supportingText">Connect a personal Gmail account and enable inbox watch from one place.</p>
+        </div>
+        <Link className="primaryButton" href="/gmail-settings">
+          Open Settings
+        </Link>
+      </section>
     </main>
   );
 }
-
