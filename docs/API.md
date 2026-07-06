@@ -5,13 +5,7 @@
 Local backend:
 
 ```text
-http://localhost:8000
-```
-
-Through Caddy:
-
-```text
-http://localhost
+http://localhost:8001
 ```
 
 ## Endpoints

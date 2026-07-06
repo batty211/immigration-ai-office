@@ -4,6 +4,11 @@ All notable project changes are tracked here.
 
 ## Unreleased
 
+### Changed
+
+- Local development no longer depends on Caddy; frontend is exposed on `http://localhost:3001` and backend on `http://localhost:8001`.
+- Frontend now calls the backend directly in development mode, with CORS enabled for the local UI origin.
+
 ### Added
 
 - Project documentation source of truth in `docs/`.

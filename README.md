@@ -9,7 +9,7 @@ Development workspace for the Immigration AI Office project, including Gmail OAu
 3. Start the stack with:
 
 ```bash
-docker compose up -d
+docker compose up --build -d
 ```
 
 ## Stop the stack
@@ -25,5 +25,10 @@ docker compose down
 - Qdrant
 - FastAPI backend
 - Next.js frontend
-- Caddy reverse proxy
 - Gmail OAuth2 and Gmail Watch API integration
+
+## Development URLs
+
+- Frontend: `http://localhost:3001`
+- Backend: `http://localhost:8001`
+- Swagger: `http://localhost:8001/docs`

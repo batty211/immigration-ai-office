@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import { buildBackendUrl } from "../lib/api";
+
 type HealthState = "loading" | "ok" | "error";
 
 export default function Home() {
@@ -13,7 +15,7 @@ export default function Home() {
 
     async function loadHealth() {
       try {
-        const response = await fetch("/health", { cache: "no-store" });
+        const response = await fetch(buildBackendUrl("/health"), { cache: "no-store" });
         if (!response.ok) {
           throw new Error("Health check failed");
         }

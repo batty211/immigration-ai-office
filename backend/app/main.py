@@ -3,7 +3,9 @@ from __future__ import annotations
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
+from app.config import settings
 from app.db import Base, engine
 from app import models  # noqa: F401
 from app.routes.gmail import router as gmail_router
@@ -15,6 +17,14 @@ async def lifespan(_: FastAPI):
     yield
 
 app = FastAPI(title="Immigration AI Office Backend", lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[settings.frontend_base_url.rstrip("/")],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(gmail_router)
 

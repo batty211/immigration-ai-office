@@ -2,6 +2,8 @@
 
 import { startTransition, useEffect, useState } from "react";
 
+import { buildBackendUrl } from "../../lib/api";
+
 type GmailStatus = {
   connected: boolean;
   email?: string | null;
@@ -19,7 +21,7 @@ export default function GmailSettingsPage() {
 
     async function loadStatus() {
       try {
-        const response = await fetch("/gmail/status", { cache: "no-store" });
+        const response = await fetch(buildBackendUrl("/gmail/status"), { cache: "no-store" });
         if (!response.ok) {
           throw new Error("Unable to load Gmail status");
         }
@@ -54,7 +56,8 @@ export default function GmailSettingsPage() {
     setMessage("");
 
     try {
-      const response = await fetch("/gmail/watch", {
+      const watchUrl = buildBackendUrl("/gmail/watch");
+      const response = await fetch(watchUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -109,7 +112,7 @@ export default function GmailSettingsPage() {
           <h2>Connect and Watch</h2>
           <p className="supportingText">Use Google login for a personal Gmail account, then register Gmail Watch API for new messages.</p>
           <div className="buttonRow">
-            <a className="primaryButton" href="/gmail/connect">
+            <a className="primaryButton" href={buildBackendUrl("/gmail/connect")}>
               Connect Gmail
             </a>
             <button

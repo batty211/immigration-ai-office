@@ -27,7 +27,7 @@ python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().d
 
 - Enable Gmail API.
 - Create an OAuth 2.0 Web application credential.
-- Add `http://localhost/gmail/callback` as an authorized redirect URI.
+- Add `http://localhost:8001/gmail/callback` as an authorized redirect URI.
 - Create the Pub/Sub topic referenced by `GMAIL_PUBSUB_TOPIC_NAME`.
 - Grant Gmail permission to publish to that topic.
 
@@ -36,13 +36,13 @@ python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().d
 From the project root:
 
 ```bash
-docker compose up -d
+docker compose up --build -d
 ```
 
 ## Verify Backend Health
 
 ```bash
-curl http://localhost:8000/health
+curl http://localhost:8001/health
 ```
 
 Expected response:
@@ -67,6 +67,7 @@ docker compose build backend
 
 | Service | URL |
 | --- | --- |
-| Frontend through Caddy | `http://localhost` |
-| Backend health endpoint | `http://localhost:8000/health` |
-| Gmail settings page | `http://localhost/gmail-settings` |
+| Frontend | `http://localhost:3001` |
+| Backend health endpoint | `http://localhost:8001/health` |
+| Backend Swagger docs | `http://localhost:8001/docs` |
+| Gmail settings page | `http://localhost:3001/gmail-settings` |

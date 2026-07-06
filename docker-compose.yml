@@ -41,8 +41,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-immigration_ai_office}
       POSTGRES_USER: ${POSTGRES_USER:-immigration}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-immigration}
-      APP_BASE_URL: ${APP_BASE_URL:-http://localhost}
-      FRONTEND_BASE_URL: ${FRONTEND_BASE_URL:-http://localhost}
+      APP_BASE_URL: ${APP_BASE_URL:-http://localhost:8001}
+      FRONTEND_BASE_URL: ${FRONTEND_BASE_URL:-http://localhost:3001}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
       GMAIL_OAUTH_REDIRECT_PATH: ${GMAIL_OAUTH_REDIRECT_PATH:-/gmail/callback}
@@ -55,7 +55,7 @@ services:
       redis:
         condition: service_healthy
     ports:
-      - "8000:8000"
+      - "8001:8000"
     healthcheck:
       test:
         - CMD-SHELL
@@ -70,29 +70,17 @@ services:
       context: .
       dockerfile: docker/frontend.Dockerfile
     environment:
-      NEXT_PUBLIC_BACKEND_HEALTH_PATH: /health
-      NEXT_PUBLIC_GMAIL_STATUS_PATH: /gmail/status
+      NEXT_PUBLIC_BACKEND_BASE_URL: ${NEXT_PUBLIC_BACKEND_BASE_URL:-http://localhost:8001}
     depends_on:
       backend:
         condition: service_healthy
+    ports:
+      - "3001:3000"
     healthcheck:
       test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3000').then(r => { if (!r.ok) process.exit(1) }).catch(() => process.exit(1))\""]
       interval: 10s
       timeout: 5s
       retries: 5
-
-  caddy:
-    image: caddy:2.8.4
-    depends_on:
-      frontend:
-        condition: service_healthy
-      backend:
-        condition: service_healthy
-    ports:
-      - "80:80"
-    volumes:
-      - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
-    restart: unless-stopped
 
 volumes:
   postgres_data:
