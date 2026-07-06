@@ -2,10 +2,10 @@
 
 ## Base URLs
 
-Local backend:
+Public entry point through Caddy:
 
 ```text
-http://localhost:8001
+http://localhost
 ```
 
 ## Endpoints
@@ -83,6 +83,12 @@ Request:
 ```http
 GET /gmail/status
 ```
+
+### Proxying Notes
+
+- Browser requests should use Caddy at `http://localhost`.
+- Frontend XHR/fetch requests should use `/api/*`, which Caddy forwards to the backend after removing the `/api` prefix.
+- Direct browser routes such as `/gmail/connect`, `/gmail/callback`, and `/docs` are also served through Caddy.
 
 Successful response when connected:
 

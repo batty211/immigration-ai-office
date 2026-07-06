@@ -1,6 +1,11 @@
-const backendBaseUrl = process.env.NEXT_PUBLIC_BACKEND_BASE_URL ?? "http://localhost:8001";
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE ?? "/api";
 
-export function buildBackendUrl(path: string): string {
+export function buildApiUrl(path: string): string {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
-  return `${backendBaseUrl.replace(/\/$/, "")}${normalizedPath}`;
+  return `${apiBaseUrl.replace(/\/$/, "")}${normalizedPath}`;
+}
+
+export function buildBackendBrowserUrl(path: string): string {
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return normalizedPath;
 }

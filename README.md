@@ -29,6 +29,8 @@ docker compose down
 
 ## Development URLs
 
-- Frontend: `http://localhost:3001`
-- Backend: `http://localhost:8001`
-- Swagger: `http://localhost:8001/docs`
+- App entry point: `http://localhost`
+- Backend health: `http://localhost/health`
+- Swagger: `http://localhost/docs`
+- Debug frontend: `http://localhost:3001`
+- Debug backend: `http://localhost:8001`

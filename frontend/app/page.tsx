@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { buildBackendUrl } from "../lib/api";
+import { buildApiUrl } from "../lib/api";
 
 type HealthState = "loading" | "ok" | "error";
 
@@ -15,7 +15,7 @@ export default function Home() {
 
     async function loadHealth() {
       try {
-        const response = await fetch(buildBackendUrl("/health"), { cache: "no-store" });
+        const response = await fetch(buildApiUrl("/health"), { cache: "no-store" });
         if (!response.ok) {
           throw new Error("Health check failed");
         }
@@ -52,9 +52,9 @@ export default function Home() {
       <section className="statusCard" aria-label="Backend Status">
         <div>
           <p className="cardLabel">Backend Status</p>
-          <h2>{status === "loading" ? "Checking..." : status === "ok" ? "Online" : "Unavailable"}</h2>
+          <h2>{status === "loading" ? "Checking..." : status === "ok" ? "Healthy" : "Unavailable"}</h2>
         </div>
-        <span className={`pill ${status}`}>{status}</span>
+        <span className={`pill ${status}`}>{status === "ok" ? "healthy" : status}</span>
       </section>
 
       <section className="settingsCard" aria-label="Integrations">

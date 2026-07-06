@@ -1,4 +1,21 @@
 services:
+  caddy:
+    image: caddy:2.8.4
+    depends_on:
+      backend:
+        condition: service_healthy
+      frontend:
+        condition: service_healthy
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+    healthcheck:
+      test: ["CMD", "caddy", "validate", "--config", "/etc/caddy/Caddyfile"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   postgres:
     image: postgres:16
     environment:
@@ -41,8 +58,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-immigration_ai_office}
       POSTGRES_USER: ${POSTGRES_USER:-immigration}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-immigration}
-      APP_BASE_URL: ${APP_BASE_URL:-http://localhost:8001}
-      FRONTEND_BASE_URL: ${FRONTEND_BASE_URL:-http://localhost:3001}
+      APP_BASE_URL: ${APP_BASE_URL:-http://localhost}
+      FRONTEND_BASE_URL: ${FRONTEND_BASE_URL:-http://localhost}
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
       GMAIL_OAUTH_REDIRECT_PATH: ${GMAIL_OAUTH_REDIRECT_PATH:-/gmail/callback}
@@ -70,7 +87,7 @@ services:
       context: .
       dockerfile: docker/frontend.Dockerfile
     environment:
-      NEXT_PUBLIC_BACKEND_BASE_URL: ${NEXT_PUBLIC_BACKEND_BASE_URL:-http://localhost:8001}
+      NEXT_PUBLIC_API_BASE: ${NEXT_PUBLIC_API_BASE:-/api}
     depends_on:
       backend:
         condition: service_healthy

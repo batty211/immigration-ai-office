@@ -2,8 +2,11 @@
 
 ## Current System
 
-The current development architecture is a local Docker Compose environment with five active services:
+The development and production architecture are the same. Both environments use Caddy as the single entry point in front of the frontend and backend services.
 
+The current Docker Compose environment runs six active services:
+
+- Caddy
 - Next.js frontend
 - FastAPI backend
 - PostgreSQL 16
@@ -12,8 +15,9 @@ The current development architecture is a local Docker Compose environment with 
 
 ```mermaid
 flowchart LR
-    Browser[Browser] --> Frontend[Next.js Frontend]
-    Frontend --> Backend
+    Browser[Browser] --> Caddy[Caddy]
+    Caddy --> Frontend[Next.js Frontend]
+    Caddy --> Backend
     Backend --> Postgres[(PostgreSQL 16)]
     Backend --> Redis[(Redis 7)]
     Backend --> Qdrant[(Qdrant)]
@@ -23,33 +27,41 @@ flowchart LR
 
 | Service | Responsibility |
 | --- | --- |
+| `caddy` | Reverse proxy and single public entry point for browser traffic. |
 | `frontend` | Next.js user interface. |
 | `backend` | FastAPI application and REST API. |
 | `postgres` | Relational data store. No schema exists yet. |
 | `redis` | Cache and future queue/session support. |
 | `qdrant` | Vector database for future AI retrieval workflows. |
 
-`Caddy` remains part of the repository for future production routing, but it is not started in local development mode.
-
 ## Routing
 
 ```mermaid
 flowchart TD
-    FrontendURL["http://localhost:3001"] --> Frontend["frontend:3000"]
-    BackendURL["http://localhost:8001"] --> Backend["backend:8000"]
-    Frontend --> Backend
+    BrowserURL["http://localhost"] --> Caddy["caddy:80"]
+    Caddy --> Frontend["frontend:3000"]
+    Caddy --> Backend["backend:8000"]
 ```
 
-Current externally exposed local ports:
+Primary public route:
 
-- `3001` for the frontend
-- `8001` for the backend API and Swagger docs
+- `http://localhost` -> Caddy -> frontend and backend
+
+Routes served by Caddy:
+
+- `/api/*` -> `backend:8000` with the `/api` prefix removed before proxying
+- `/health` -> `backend:8000`
+- `/gmail/*` -> `backend:8000`
+- `/` -> `frontend:3000`
+
+Optional debug ports:
+
+- `3001` exposes the frontend container directly
+- `8001` exposes the backend container directly
 
 ## Development Mode
 
-Local development does not use Caddy. This avoids host port conflicts on `3000` and removes the dependency on the reverse proxy being healthy before the UI becomes available.
-
-The planned production topology still uses Caddy in front of the frontend and backend services.
+Local development must keep the same reverse proxy topology as production. Bugs in Caddy, frontend, or backend integration must be fixed without bypassing Caddy as the primary path.
 
 ## Backend Runtime
 
